@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRC Creator Studio — Minecraft & Gaming</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="sp-wrap">
+    <div class="sp-ring"><span class="sp-emoji">⛏️</span></div>
+    <div class="sp-crc">CRC</div>
+    <div class="sp-sub">CREATOR STUDIO</div>
+    <div class="sp-edition">Minecraft &amp; Gaming Edition</div>
+    <div class="sp-chs">
+      <span class="sp-ch"><i class="fab fa-youtube"></i> CRC STUDIO</span>
+      <span class="sp-x">✦</span>
+      <span class="sp-ch"><i class="fab fa-youtube"></i> MASTERCRC</span>
+    </div>
+    <div class="sp-bar-bg"><div class="sp-bar"></div></div>
+    <div class="sp-txt" id="sp-txt">Memuat CRC Creator Studio...</div>
+    <div id="sp-particles"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+  <aside id="sidebar">
+    <div class="sb-top">
+      <div class="sb-brand">
+        <span class="sb-pick">⛏️</span>
+        <div class="sb-info"><span class="sb-name">CRC STUDIO</span><span class="sb-ver">Creator Pro</span></div>
+      </div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-sec">UTAMA</div>
+      <a class="ni active" data-page="dashboard"  onclick="nav('dashboard')"> <i class="fas fa-home"></i>         <span>Dashboard</span>        <div class="ni-bar"></div></a>
+      <a class="ni"        data-page="channels"   onclick="nav('channels')">  <i class="fab fa-youtube"></i>      <span>Channel Manager</span>  <div class="ni-bar"></div></a>
+      <div class="sb-sec">KONTEN</div>
+      <a class="ni"        data-page="schedule"   onclick="nav('schedule')">  <i class="fas fa-calendar-alt"></i> <span>Jadwal Upload</span>     <div class="ni-bar"></div></a>
+      <a class="ni"        data-page="ideas"      onclick="nav('ideas')">     <i class="fas fa-magic"></i>        <span>Content Studio</span>   <div class="ni-bar"></div></a>
+      <a class="ni"        data-page="script"     onclick="nav('script')">    <i class="fas fa-file-alt"></i>     <span>Script Editor</span>    <div class="ni-bar"></div></a>
+      <div class="sb-sec">ANALITIK</div>
+      <a class="ni"        data-page="analytics"  onclick="nav('analytics')"> <i class="fas fa-chart-line"></i>   <span>Analitik &amp; SEO</span>    <div class="ni-bar"></div></a>
+      <a class="ni"        data-page="competitor" onclick="nav('competitor')"><i class="fas fa-crosshairs"></i>   <span>Analisa Kompetitor</span><div class="ni-bar"></div></a>
+      <div class="sb-sec">KREASI</div>
+      <a class="ni"        data-page="animation"  onclick="nav('animation')"> <i class="fas fa-film"></i>         <span>Animasi Minecraft</span> <div class="ni-bar"></div></a>
+      <a class="ni"        data-page="thumbnail"  onclick="nav('thumbnail')"> <i class="fas fa-image"></i>        <span>Thumbnail Planner</span> <div class="ni-bar"></div></a>
+      <div class="sb-sec">TOOLS</div>
+      <a class="ni"        data-page="tools"      onclick="nav('tools')">     <i class="fas fa-toolbox"></i>      <span>Tools &amp; Resources</span>  <div class="ni-bar"></div></a>
+    </nav>
+    <div class="sb-foot">
+      <div class="sb-user">
+        <div class="sb-av" id="sb-av">C</div>
+        <div class="sb-ui"><span id="sb-name">Creator</span><span class="sb-lv" id="sb-lv">Beginner</span></div>
+        <button class="sb-cog" onclick="openSettings()"><i class="fas fa-cog"></i></button>
+      </div>
+    </div>
+  </aside>
+
+  <main id="main">
+    <header class="topbar">
+      <button class="tb-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      <div class="tb-mid">
+        <span class="tb-title" id="tb-title">Dashboard</span>
+        <span class="tb-sub" id="tb-sub">CRC Creator Studio</span>
+      </div>
+      <div class="tb-right">
+        <div class="tb-clock"><i class="fas fa-clock"></i><span id="clock">00:00:00</span></div>
+        <button class="tb-btn notif-btn" onclick="toggleNotif()"><i class="fas fa-bell"></i><span id="nb-dot" class="nb-dot" style="display:none"></span></button>
+        <button class="tb-btn" onclick="toggleTheme()"><i class="fas fa-moon" id="theme-ic"></i></button>
+        <button class="tb-btn" onclick="openApiModal()" title="YouTube API Key" style="color:#ffaa44"><i class="fas fa-key"></i></button>
+      </div>
+    </header>
+    <div id="notif-panel" class="notif-panel" style="display:none">
+      <div class="np-head"><span><i class="fas fa-bell"></i> Notifikasi</span><button onclick="clearNotifs()">Hapus Semua</button></div>
+      <div id="notif-body"></div>
+    </div>
+    <div id="pages">
+
+<!-- ═══ DASHBOARD ═══ -->
+<div id="page-dashboard" class="page active">
+  <div class="hero-bar">
+    <div><div class="hero-greet">Selamat datang, <span id="hero-name">Creator</span>! 🔥</div><div class="hero-q" id="hero-q">Konsistensi adalah senjata terkuat seorang creator.</div></div>
+    <div class="hero-date" id="hero-date"></div>
+  </div>
+  <div class="crc-bar">
+    <div class="crc-card" onclick="nav('channels')">
+      <div class="crc-av" style="background:linear-gradient(135deg,#cc0000,#ff4400)">S</div>
+      <div class="crc-info"><div class="crc-nm">CRC STUDIO</div><div class="crc-hn">@studiocrc612</div></div>
+      <div class="crc-nums"><div class="crc-n"><span id="c1-subs">—</span><small>Subs</small></div><div class="crc-n"><span id="c1-views">—</span><small>Views</small></div><div class="crc-n"><span id="c1-vids">—</span><small>Video</small></div></div>
+      <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+    </div>
+    <div class="crc-card" onclick="nav('channels')">
+      <div class="crc-av" style="background:linear-gradient(135deg,#990000,#cc2200)">M</div>
+      <div class="crc-info"><div class="crc-nm">MASTERCRC</div><div class="crc-hn">@mastercrc</div></div>
+      <div class="crc-nums"><div class="crc-n"><span id="c2-subs">—</span><small>Subs</small></div><div class="crc-n"><span id="c2-views">—</span><small>Views</small></div><div class="crc-n"><span id="c2-vids">—</span><small>Video</small></div></div>
+      <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+    </div>
+    <button class="crc-refresh" onclick="refreshChannels()"><i class="fas fa-sync-alt" id="refresh-ic"></i><span>Refresh<br>Data</span></button>
+    <button class="crc-refresh" onclick="window.open('https://studio.youtube.com','_blank')" style="background:rgba(255,0,0,.12)"><i class="fas fa-external-link-alt"></i><span>YouTube<br>Studio</span></button>
+  </div>
+  <div class="stat-grid">
+    <div class="sc"><div class="sc-ico"><i class="fas fa-users"></i></div><div><div class="sc-n" id="d-subs">0</div><div class="sc-l">Total Subscriber</div></div></div>
+    <div class="sc"><div class="sc-ico"><i class="fas fa-eye"></i></div><div><div class="sc-n" id="d-views">0</div><div class="sc-l">Total Views</div></div></div>
+    <div class="sc"><div class="sc-ico"><i class="fas fa-video"></i></div><div><div class="sc-n" id="d-vids">0</div><div class="sc-l">Total Video</div></div></div>
+    <div class="sc"><div class="sc-ico"><i class="fas fa-fire"></i></div><div><div class="sc-n" id="d-streak">0</div><div class="sc-l">Upload Streak 🔥</div></div></div>
+    <div class="sc"><div class="sc-ico"><i class="fas fa-stream"></i></div><div><div class="sc-n" id="d-pipeline">0</div><div class="sc-l">Pipeline Aktif</div></div></div>
+    <div class="sc"><div class="sc-ico"><i class="fas fa-check-circle"></i></div><div><div class="sc-n" id="d-done">0</div><div class="sc-l">Upload Selesai</div></div></div>
+  </div>
+  <div class="dash-grid">
+    <div class="card dash-next"><div class="card-h"><i class="fas fa-clock"></i>Upload Berikutnya</div><div id="next-upload"></div></div>
+    <div class="card dash-level"><div class="card-h"><i class="fas fa-trophy"></i>Level Creator</div>
+      <div class="lv-box"><div class="lv-e" id="lv-e">🌱</div><div class="lv-n" id="lv-n">Beginner</div><div class="lv-bg"><div class="lv-fill" id="lv-fill" style="width:2%"></div></div><div class="lv-xp" id="lv-xp">0 / 100 Sub</div></div>
+      <div id="milestones"></div>
+    </div>
+    <div class="card dash-tip"><div class="card-h"><i class="fas fa-lightbulb"></i>Tip Hari Ini</div><div class="tip-box" id="tip-box"></div><div class="tip-btns"><button class="btn-out" onclick="nextTip()"><i class="fas fa-arrow-right"></i> Tip Lain</button></div></div>
+    <div class="card dash-mot"><div class="card-h"><i class="fas fa-heart"></i>Motivasi CRC</div><div class="mot-box" id="mot-box"></div><button class="btn-out" onclick="nextMot()" style="margin-top:10px"><i class="fas fa-sync"></i> Quote Baru</button></div>
+    <div class="card dash-chart"><div class="card-h"><i class="fas fa-chart-bar"></i>Aktivitas Mingguan</div><canvas id="weekly-chart" height="120"></canvas></div>
+    <div class="card dash-todo"><div class="card-h"><i class="fas fa-tasks"></i>Todo Hari Ini<button class="card-hbtn" onclick="openTodoModal()"><i class="fas fa-plus"></i></button></div><div id="todo-wrap"></div></div>
+  </div>
+</div>
+
+<!-- ═══ CHANNELS ═══ -->
+<div id="page-channels" class="page">
+  <div class="page-hdr"><h2><i class="fab fa-youtube"></i> Channel Manager</h2><p>Kelola dan pantau semua channel CRC secara real-time</p></div>
+  <div class="toolbar"><button class="btn-pri" onclick="openAddCh()"><i class="fas fa-plus"></i> Tambah Channel</button><button class="btn-out" onclick="refreshChannels()"><i class="fas fa-sync-alt"></i> Fetch Live Data</button><div class="api-badge" id="api-badge"><i class="fas fa-circle"></i> API: Offline</div></div>
+  <div class="sec-title">⛏️ Channel CRC (Pre-loaded)</div>
+  <div class="ch-grid" id="crc-grid"></div>
+  <div class="sec-title" style="margin-top:22px">📺 Channel Tambahan</div>
+  <div class="ch-grid" id="extra-grid"></div>
+  <div id="m-addch" class="modal" style="display:none"><div class="mbox">
+    <div class="m-hdr"><h3><i class="fas fa-plus-circle"></i> Tambah Channel</h3><button class="m-x" onclick="closeModal('m-addch')"><i class="fas fa-times"></i></button></div>
+    <div class="m-body">
+      <div class="fr"><label>Nama Channel *</label><input id="ch-name" class="fi" placeholder="Nama channel..."></div>
+      <div class="fr"><label>Handle (@...)</label><input id="ch-handle" class="fi" placeholder="@channelmu"></div>
+      <div class="fr"><label>URL Channel</label><input id="ch-url" class="fi" placeholder="https://youtube.com/@..."></div>
+      <div class="fr"><label>Kategori</label><select id="ch-cat" class="fi"><option value="minecraft">⛏️ Minecraft</option><option value="animation">🎬 Animasi</option><option value="gaming">🎮 Gaming</option><option value="tutorial">📚 Tutorial</option></select></div>
+      <div class="fr3"><div class="fr"><label>Subscriber</label><input id="ch-subs" class="fi" type="number" placeholder="0"></div><div class="fr"><label>Views</label><input id="ch-views" class="fi" type="number" placeholder="0"></div><div class="fr"><label>Video</label><input id="ch-vids" class="fi" type="number" placeholder="0"></div></div>
+      <div class="fr"><label>Deskripsi</label><textarea id="ch-desc" class="fi" rows="2" placeholder="Tentang channel..."></textarea></div>
+      <div class="fr"><label>Warna</label><div class="color-row"><div class="co sel" style="background:#ff0000" onclick="pickCol('#ff0000',this)"></div><div class="co" style="background:#cc0000" onclick="pickCol('#cc0000',this)"></div><div class="co" style="background:#ff4400" onclick="pickCol('#ff4400',this)"></div><div class="co" style="background:#ff6600" onclick="pickCol('#ff6600',this)"></div><div class="co" style="background:#cc3300" onclick="pickCol('#cc3300',this)"></div><div class="co" style="background:#990000" onclick="pickCol('#990000',this)"></div></div></div>
+    </div>
+    <div class="m-ftr"><button class="btn-out" onclick="closeModal('m-addch')">Batal</button><button class="btn-pri" onclick="saveChannel()"><i class="fas fa-save"></i> Simpan</button></div>
+  </div></div>
+</div>
+
+<!-- ═══ SCHEDULE ═══ -->
+<div id="page-schedule" class="page">
+  <div class="page-hdr"><h2><i class="fas fa-calendar-alt"></i> Jadwal Upload</h2><p>Rencanakan konten dan jaga konsistensi upload</p></div>
+  <div class="toolbar"><button class="btn-pri" onclick="openAddSch()"><i class="fas fa-plus"></i> Jadwal Baru</button><div class="filters"><button class="filt active" onclick="filtSch('all',this)">Semua</button><button class="filt" onclick="filtSch('upcoming',this)">Mendatang</button><button class="filt" onclick="filtSch('overdue',this)">Terlambat</button><button class="filt" onclick="filtSch('done',this)">Selesai</button></div></div>
+  <div class="sch-layout">
+    <div id="sch-list"></div>
+    <div class="sch-side">
+      <div class="card"><div class="card-h"><i class="fas fa-chart-bar"></i> Ringkasan</div><div class="sch-sum"><div class="ss"><div class="ss-n" id="ss-total">0</div><div class="ss-l">Total</div></div><div class="ss"><div class="ss-n" id="ss-done">0</div><div class="ss-l">Selesai</div></div><div class="ss"><div class="ss-n" id="ss-late">0</div><div class="ss-l">Terlambat</div></div></div><div class="cr-wrap"><div class="cr-lbl">Completion Rate</div><div class="cr-bg"><div class="cr-fill" id="cr-fill" style="width:0%"></div></div><div class="cr-pct" id="cr-pct">0%</div></div></div>
+      <div class="card" style="margin-top:12px"><div class="card-h"><i class="fas fa-star"></i> Waktu Upload Terbaik</div><div class="bt-list"><div class="bt best"><span>🏆 Sabtu</span><span>14:00–20:00</span></div><div class="bt best"><span>🔥 Jumat</span><span>17:00–21:00</span></div><div class="bt good"><span>✅ Minggu</span><span>15:00–19:00</span></div><div class="bt good"><span>✅ Kamis</span><span>18:00–21:00</span></div><div class="bt ok"><span>💡 Selasa</span><span>19:00–21:00</span></div></div></div>
+    </div>
+  </div>
+  <div id="m-addsch" class="modal" style="display:none"><div class="mbox">
+    <div class="m-hdr"><h3><i class="fas fa-calendar-plus"></i> Jadwal Upload Baru</h3><button class="m-x" onclick="closeModal('m-addsch')"><i class="fas fa-times"></i></button></div>
+    <div class="m-body">
+      <div class="fr"><label>Judul Video *</label><input id="sch-title" class="fi" placeholder="Judul video..."></div>
+      <div class="fr2"><div class="fr"><label>Channel</label><select id="sch-ch" class="fi"></select></div><div class="fr"><label>Tipe Konten</label><select id="sch-type" class="fi"><option value="minecraft">⛏️ Minecraft</option><option value="animation">🎬 Animasi</option><option value="gaming">🎮 Gaming</option><option value="tutorial">📚 Tutorial</option><option value="short">📱 Shorts</option><option value="live">🔴 Live</option></select></div></div>
+      <div class="fr2"><div class="fr"><label>Tanggal</label><input id="sch-date" type="date" class="fi"></div><div class="fr"><label>Jam</label><input id="sch-time" type="time" class="fi" value="18:00"></div></div>
+      <div class="fr2"><div class="fr"><label>Prioritas</label><select id="sch-prio" class="fi"><option value="high">🔴 Tinggi</option><option value="medium">🟡 Sedang</option><option value="low">🟢 Rendah</option></select></div><div class="fr"><label>Status</label><select id="sch-status" class="fi"><option value="planned">📋 Planned</option><option value="recording">🎙️ Recording</option><option value="editing">✂️ Editing</option><option value="ready">✅ Ready</option></select></div></div>
+      <div class="fr"><label>Keywords SEO</label><input id="sch-kw" class="fi" placeholder="minecraft survival, gaming indonesia..."></div>
+      <div class="fr"><label>Catatan</label><textarea id="sch-notes" class="fi" rows="2" placeholder="Catatan..."></textarea></div>
+    </div>
+    <div class="m-ftr"><button class="btn-out" onclick="closeModal('m-addsch')">Batal</button><button class="btn-pri" onclick="saveSch()"><i class="fas fa-save"></i> Simpan</button></div>
+  </div></div>
+</div>
+
+<!-- ═══ CONTENT STUDIO ═══ -->
+<div id="page-ideas" class="page">
+  <div class="page-hdr">
+    <h2><i class="fas fa-magic"></i> Content Studio</h2>
+    <p>Generate ide dari kata kunci, buat konten step-by-step, dari ide sampai upload ke YouTube!</p>
+  </div>
+  <div class="cs-tabs">
+    <button class="cs-tab active" onclick="csTab('generate',this)"><i class="fas fa-wand-magic-sparkles"></i> Generate Ide</button>
+    <button class="cs-tab" onclick="csTab('browse',this)"><i class="fas fa-th-large"></i> Browse Ide <span class="cs-badge" id="saved-count">0</span></button>
+    <button class="cs-tab" onclick="csTab('title',this)"><i class="fas fa-heading"></i> Judul &amp; Deskripsi</button>
+    <button class="cs-tab" onclick="csTab('thumbnail',this)"><i class="fas fa-image"></i> Thumbnail</button>
+    <button class="cs-tab cs-tab-pipeline" onclick="csTab('pipeline',this)"><i class="fas fa-stream"></i> Content Pipeline <span class="cs-badge pip-badge" id="pipeline-count">0</span></button>
+  </div>
+
+  <!-- TAB: GENERATE -->
+  <div id="cs-generate" class="cs-panel active">
+    <div class="gen-hero">
+      <div class="gen-hero-title">✨ Generate Ide Konten dari Kata Kunci</div>
+      <div class="gen-hero-sub">Ketik topik atau kata kunci — generator akan membuat ide konten lengkap untuk channel CRC secara otomatis!</div>
+    </div>
+    <div class="gen-input-box">
+      <div class="gen-input-row">
+        <div class="gen-main-input-wrap">
+          <i class="fas fa-search gen-search-icon"></i>
+          <input id="gen-keyword" class="gen-main-input" placeholder="Ketik topik... contoh: survival hardcore, animasi creeper lucu, build castle epic, tutorial thumbnail..."
+            onkeydown="if(event.key==='Enter') generateIdeas()" oninput="updateGenClear()">
+          <button class="gen-clear-btn" onclick="clearGen()" id="gen-clear" style="display:none"><i class="fas fa-times"></i></button>
+        </div>
+        <button class="gen-btn" onclick="generateIdeas()" id="gen-btn"><i class="fas fa-wand-magic-sparkles"></i> Generate!</button>
+      </div>
+      <div class="quick-kw-row">
+        <span class="qkw-label">🔥 Trending:</span>
+        <button class="qkw" onclick="setKeyword('survival 100 hari hardcore')">⛏️ survival 100 hari</button>
+        <button class="qkw" onclick="setKeyword('animasi minecraft lucu')">🎬 animasi lucu</button>
+        <button class="qkw" onclick="setKeyword('build castle epic minecraft')">🏰 build castle</button>
+        <button class="qkw" onclick="setKeyword('manhunt 4 hunter speedrun')">🏃 manhunt</button>
+        <button class="qkw" onclick="setKeyword('tutorial thumbnail viral youtube')">🖼️ thumbnail viral</button>
+        <button class="qkw" onclick="setKeyword('game horror malam hari')">👻 game horror</button>
+        <button class="qkw" onclick="setKeyword('shorts minecraft tips tersembunyi')">📱 minecraft shorts</button>
+        <button class="qkw" onclick="setKeyword('challenge speedrun record')">⚡ speedrun</button>
+      </div>
+      <div class="gen-options-row">
+        <div class="gen-opt"><label>Jenis Konten</label><select id="gen-type" class="fi" style="width:auto"><option value="auto">🎯 Auto Detect</option><option value="minecraft">⛏️ Minecraft</option><option value="animation">🎬 Animasi</option><option value="gaming">🎮 Gaming</option><option value="tutorial">📚 Tutorial</option><option value="shorts">📱 Shorts</option><option value="challenge">🏆 Challenge</option><option value="collab">🤝 Kolaborasi</option><option value="review">⭐ Review</option><option value="livestream">🔴 Live</option></select></div>
+        <div class="gen-opt"><label>Jumlah Ide</label><select id="gen-count" class="fi" style="width:auto"><option value="5">5 ide</option><option value="10" selected>10 ide</option><option value="15">15 ide</option><option value="20">20 ide</option></select></div>
+        <div class="gen-opt"><label>Platform</label><select id="gen-platform" class="fi" style="width:auto"><option value="youtube">YouTube Reguler</option><option value="shorts">YouTube Shorts</option><option value="both">Keduanya</option></select></div>
+        <div class="gen-opt"><label>Potensi Viral</label><select id="gen-viral" class="fi" style="width:auto"><option value="all">Semua Potensi</option><option value="high">🔥 Tinggi (&gt;50K)</option><option value="med">📈 Sedang (10-50K)</option><option value="safe">✅ Stabil (1-10K)</option></select></div>
+      </div>
+    </div>
+    <div id="gen-result-area">
+      <div id="gen-empty-state" class="gen-empty">
+        <div class="gen-empty-icon">💡</div>
+        <div class="gen-empty-title">Ketik kata kunci dan tekan Generate!</div>
+        <div class="gen-empty-sub">Generator akan membuat ide konten yang dipersonalisasi untuk channel CRC</div>
+        <div class="gen-examples">
+          <div class="gen-ex" onclick="setKeyword('minecraft survival hardcore indonesia')"><i class="fas fa-play"></i> "minecraft survival hardcore indonesia"</div>
+          <div class="gen-ex" onclick="setKeyword('animasi minecraft comedy trending')"><i class="fas fa-play"></i> "animasi minecraft comedy trending"</div>
+          <div class="gen-ex" onclick="setKeyword('tips youtube gaming channel pemula')"><i class="fas fa-play"></i> "tips youtube gaming channel pemula"</div>
+        </div>
+      </div>
+      <div id="gen-results" style="display:none">
+        <div class="gen-results-header">
+          <div class="gen-results-info"><span id="gen-results-title"></span><span id="gen-results-count" class="gen-count-badge"></span></div>
+          <div style="display:flex;gap:8px">
+            <button class="btn-out" onclick="generateIdeas()"><i class="fas fa-sync"></i> Regenerate</button>
+            <button class="btn-out" onclick="saveAllGenerated()"><i class="fas fa-heart"></i> Simpan Semua</button>
+          </div>
+        </div>
+        <div id="gen-cards" class="gen-cards-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: BROWSE -->
+  <div id="cs-browse" class="cs-panel">
+    <div class="cs-gen-top">
+      <div class="cs-filters-row">
+        <div class="cs-filter-group">
+          <label>Filter Kategori</label>
+          <div class="cs-cats">
+            <button class="cs-cat active" data-cat="all" onclick="csSetCat('all',this)">🎯 Semua</button>
+            <button class="cs-cat" data-cat="minecraft" onclick="csSetCat('minecraft',this)">⛏️ Minecraft</button>
+            <button class="cs-cat" data-cat="animation" onclick="csSetCat('animation',this)">🎬 Animasi</button>
+            <button class="cs-cat" data-cat="gaming" onclick="csSetCat('gaming',this)">🎮 Gaming</button>
+            <button class="cs-cat" data-cat="tutorial" onclick="csSetCat('tutorial',this)">📚 Tutorial</button>
+            <button class="cs-cat" data-cat="shorts" onclick="csSetCat('shorts',this)">📱 Shorts</button>
+            <button class="cs-cat" data-cat="challenge" onclick="csSetCat('challenge',this)">🏆 Challenge</button>
+            <button class="cs-cat" data-cat="collab" onclick="csSetCat('collab',this)">🤝 Kolaborasi</button>
+            <button class="cs-cat" data-cat="review" onclick="csSetCat('review',this)">⭐ Review</button>
+            <button class="cs-cat" data-cat="vlog" onclick="csSetCat('vlog',this)">📹 Vlog</button>
+            <button class="cs-cat" data-cat="saved" onclick="csSetCat('saved',this)">❤️ Disimpan</button>
+          </div>
+        </div>
+        <div class="cs-filter-right">
+          <div class="cs-filter-group"><label>Kesulitan</label><select id="cs-diff" class="fi" style="width:auto" onchange="renderIdeas()"><option value="all">Semua</option><option value="e">Mudah</option><option value="m">Sedang</option><option value="h">Sulit</option></select></div>
+          <div class="cs-filter-group"><label>Cari</label><div class="search-wrap"><i class="fas fa-search"></i><input id="idea-q" class="search-in" placeholder="Kata kunci..." oninput="filterIdeas()" style="width:150px"></div></div>
+          <button class="btn-pri" onclick="randomIdea()"><i class="fas fa-dice"></i> Acak!</button>
+        </div>
+      </div>
+    </div>
+    <div id="ideas-grid" class="idea-grid"></div>
+  </div>
+
+  <!-- TAB: JUDUL & DESKRIPSI -->
+  <div id="cs-title" class="cs-panel">
+    <div class="cs-two-col">
+      <div class="cs-left-panel">
+        <div class="card">
+          <div class="card-h"><i class="fas fa-heading"></i> Generator Judul YouTube</div>
+          <div class="fr"><label>Topik Video</label><input id="tg-topic" class="fi" placeholder="Contoh: Minecraft survival 100 hari, Tutorial build rumah..."></div>
+          <div class="fr2">
+            <div class="fr"><label>Jenis Konten</label><select id="tg-type" class="fi"><option value="minecraft">⛏️ Minecraft</option><option value="animation">🎬 Animasi</option><option value="challenge">🏆 Challenge</option><option value="tutorial">📚 Tutorial</option><option value="gaming">🎮 Gaming</option><option value="shorts">📱 Shorts</option><option value="collab">🤝 Kolaborasi</option><option value="review">⭐ Review</option></select></div>
+            <div class="fr"><label>Nada Judul</label><select id="tg-tone" class="fi"><option value="hype">🔥 Hype/Dramatis</option><option value="funny">😂 Lucu/Santai</option><option value="info">💡 Informatif</option><option value="mystery">🤔 Misterius</option><option value="emotional">❤️ Emosional</option></select></div>
+          </div>
+          <div class="fr"><label>Keyword Tambahan</label><input id="tg-keywords" class="fi" placeholder="Contoh: hardcore, Indonesia, 2025..."></div>
+          <button class="btn-pri" style="width:100%;margin-top:4px" onclick="generateTitles()"><i class="fas fa-wand-magic-sparkles"></i> Generate 10 Judul</button>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <div class="card-h"><i class="fas fa-align-left"></i> Generator Deskripsi Video</div>
+          <div class="fr"><label>Judul Video</label><input id="dg-title" class="fi" placeholder="Masukkan judul video..."></div>
+          <div class="fr"><label>Poin Utama Video (pisah koma)</label><textarea id="dg-points" class="fi" rows="3" placeholder="Contoh: build rumah baru, crafting diamond armor, temukan stronghold..."></textarea></div>
+          <div class="fr2">
+            <div class="fr"><label>Channel</label><select id="dg-channel" class="fi"><option value="crc-studio">CRC STUDIO (@studiocrc612)</option><option value="mastercrc">MASTERCRC (@mastercrc)</option></select></div>
+            <div class="fr"><label>Durasi Video</label><select id="dg-duration" class="fi"><option value="short">1-5 menit</option><option value="medium">5-15 menit</option><option value="long">15-30 menit</option><option value="verylong">30+ menit</option></select></div>
+          </div>
+          <button class="btn-pri" style="width:100%;margin-top:4px" onclick="generateDescription()"><i class="fas fa-file-alt"></i> Generate Deskripsi</button>
+        </div>
+      </div>
+      <div class="cs-right-panel">
+        <div class="card" id="titles-output-card" style="display:none">
+          <div class="card-h"><i class="fas fa-list"></i> Hasil Judul <span id="titles-count" style="font-size:11px;color:var(--muted)"></span><button class="card-hbtn" onclick="generateTitles()"><i class="fas fa-sync"></i></button></div>
+          <div id="titles-output"></div>
+        </div>
+        <div class="card" id="desc-output-card" style="display:none;margin-top:14px">
+          <div class="card-h"><i class="fas fa-file-alt"></i> Hasil Deskripsi<button class="card-hbtn" onclick="copyDesc()"><i class="fas fa-copy"></i></button></div>
+          <div id="desc-output" class="desc-result"></div>
+          <div class="desc-actions"><button class="btn-out" onclick="copyDesc()"><i class="fas fa-copy"></i> Copy</button><button class="btn-pri" onclick="useDescForScript()"><i class="fas fa-file-alt"></i> Buat Script</button></div>
+        </div>
+        <div id="title-placeholder" class="cs-placeholder"><i class="fas fa-heading"></i><p>Generator judul &amp; deskripsi otomatis</p><small>Isi form di kiri lalu klik Generate</small></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: THUMBNAIL -->
+  <div id="cs-thumbnail" class="cs-panel">
+    <div class="cs-two-col">
+      <div class="cs-left-panel">
+        <div class="card">
+          <div class="card-h"><i class="fas fa-image"></i> Generator Ide Thumbnail</div>
+          <div class="fr"><label>Judul / Topik Video</label><input id="th-topic" class="fi" placeholder="Contoh: Survival 100 Hari Hardcore Minecraft"></div>
+          <div class="fr2">
+            <div class="fr"><label>Gaya</label><select id="th-style" class="fi"><option value="dramatic">🔥 Dramatis</option><option value="funny">😂 Lucu</option><option value="before-after">↔️ Before vs After</option><option value="number">🔢 Angka Besar</option><option value="minimal">✨ Minimal</option><option value="collage">🖼️ Kolase</option></select></div>
+            <div class="fr"><label>Warna Dominan</label><select id="th-color" class="fi"><option value="red">🔴 Merah (CRC Brand)</option><option value="dark">⚫ Gelap + Aksen</option><option value="bright">🌟 Cerah Kontras</option><option value="green">🟢 Hijau Minecraft</option><option value="fire">🔥 Api/Orange</option></select></div>
+          </div>
+          <div class="fr"><label>Elemen</label>
+            <div class="elem-checks" id="elem-checks">
+              <label class="check-item"><input type="checkbox" value="face" checked> 😮 Ekspresi</label>
+              <label class="check-item"><input type="checkbox" value="text" checked> 📝 Teks Besar</label>
+              <label class="check-item"><input type="checkbox" value="char"> ⛏️ Karakter MC</label>
+              <label class="check-item"><input type="checkbox" value="arrows"> ➡️ Panah</label>
+              <label class="check-item"><input type="checkbox" value="glow"> ✨ Glow</label>
+              <label class="check-item"><input type="checkbox" value="compare"> ↔️ Perbandingan</label>
+            </div>
+          </div>
+          <button class="btn-pri" style="width:100%;margin-top:8px" onclick="generateThumbnailIdeas()"><i class="fas fa-wand-magic-sparkles"></i> Generate Ide Thumbnail</button>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <div class="card-h"><i class="fas fa-palette"></i> Palet Warna CRC</div>
+          <div class="brand-palette">
+            <div class="bp-item" onclick="copyColor('#E60000','Merah CRC')"><div class="bp-color" style="background:#E60000"></div><span>#E60000</span><small>Merah CRC</small></div>
+            <div class="bp-item" onclick="copyColor('#CC0000','Merah Tua')"><div class="bp-color" style="background:#CC0000"></div><span>#CC0000</span><small>Merah Tua</small></div>
+            <div class="bp-item" onclick="copyColor('#FF4400','Oranye')"><div class="bp-color" style="background:#FF4400"></div><span>#FF4400</span><small>Oranye</small></div>
+            <div class="bp-item" onclick="copyColor('#FFCC00','Kuning')"><div class="bp-color" style="background:#FFCC00"></div><span>#FFCC00</span><small>Kuning Emas</small></div>
+            <div class="bp-item" onclick="copyColor('#0D0D0D','Hitam')"><div class="bp-color" style="background:#0D0D0D;border:1px solid #333"></div><span>#0D0D0D</span><small>Background</small></div>
+            <div class="bp-item" onclick="copyColor('#FFFFFF','Putih')"><div class="bp-color" style="background:#fff;border:1px solid #ccc"></div><span>#FFFFFF</span><small>Teks Utama</small></div>
+            <div class="bp-item" onclick="copyColor('#4CAF50','Hijau MC')"><div class="bp-color" style="background:#4CAF50"></div><span>#4CAF50</span><small>Hijau Grass</small></div>
+            <div class="bp-item" onclick="copyColor('#795548','Coklat')"><div class="bp-color" style="background:#795548"></div><span>#795548</span><small>Dirt</small></div>
+          </div>
+          <div class="font-recs-mini">
+            <div style="font-size:11px;font-weight:700;color:var(--muted);margin:10px 0 6px;text-transform:uppercase;letter-spacing:1px">Font Rekomendasi</div>
+            <div class="font-row"><span style="font-family:Impact,sans-serif;font-size:18px">IMPACT</span><small>→ Judul dramatis, CTR tinggi</small></div>
+            <div class="font-row"><span style="font-weight:900;font-size:16px">Montserrat 900</span><small>→ Modern, clean</small></div>
+          </div>
+        </div>
+      </div>
+      <div class="cs-right-panel">
+        <div id="thumb-ideas-result"></div>
+        <div id="thumb-placeholder" class="cs-placeholder"><i class="fas fa-image"></i><p>Ide thumbnail branding merah CRC</p><small>Isi form lalu klik Generate</small></div>
+        <div class="card" style="margin-top:14px">
+          <div class="card-h"><i class="fas fa-chart-line"></i> Tips CTR Thumbnail</div>
+          <div class="ctr-tips">
+            <div class="ctr-tip"><div class="ctr-score high">4-10%</div><div><strong>Target CTR Ideal</strong><p>Gaming Indonesia rata-rata 4-7%. Di atas 8% = sangat bagus!</p></div></div>
+            <div class="ctr-tip"><div class="ctr-icon">🔴</div><div><strong>Warna Merah Dominan</strong><p>Merah menarik perhatian paling cepat — sesuai branding CRC.</p></div></div>
+            <div class="ctr-tip"><div class="ctr-icon">😮</div><div><strong>Ekspresi Dramatis</strong><p>Ekspresi kaget/senang terbukti meningkatkan CTR 20-40%.</p></div></div>
+            <div class="ctr-tip"><div class="ctr-icon">📝</div><div><strong>Teks Maksimal 4 Kata</strong><p>Font IMPACT ukuran besar. Mudah dibaca di HP kecil!</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: CONTENT PIPELINE -->
+  <div id="cs-pipeline" class="cs-panel">
+    <div class="pip-header">
+      <div>
+        <div class="pip-title"><i class="fas fa-stream"></i> Content Pipeline</div>
+        <div class="pip-sub">Buat konten step-by-step dari ide → script → produksi → editing → thumbnail → upload YouTube!</div>
+      </div>
+      <button class="btn-pri" onclick="openNewProject()"><i class="fas fa-plus"></i> Proyek Baru</button>
+    </div>
+    <div class="pip-stats">
+      <div class="pip-stat"><div class="pip-stat-n" id="pip-total">0</div><div class="pip-stat-l">Total Proyek</div></div>
+      <div class="pip-stat"><div class="pip-stat-n" id="pip-inprog">0</div><div class="pip-stat-l">In Progress</div></div>
+      <div class="pip-stat"><div class="pip-stat-n" id="pip-done">0</div><div class="pip-stat-l">Selesai</div></div>
+      <div class="pip-stat"><div class="pip-stat-n" id="pip-uploaded">0</div><div class="pip-stat-l">Ter-upload</div></div>
+    </div>
+    <div class="pip-kanban" id="pip-kanban">
+      <div class="pip-col"><div class="pip-col-hdr" style="border-color:#7c3aed"><span class="pip-col-dot" style="background:#7c3aed"></span>💡 IDE<span class="pip-col-cnt" id="cnt-idea">0</span></div><div class="pip-col-body" id="body-idea"></div><button class="pip-add-btn" onclick="openNewProject('idea')"><i class="fas fa-plus"></i> Tambah</button></div>
+      <div class="pip-col"><div class="pip-col-hdr" style="border-color:#2563eb"><span class="pip-col-dot" style="background:#2563eb"></span>📝 SCRIPT<span class="pip-col-cnt" id="cnt-script">0</span></div><div class="pip-col-body" id="body-script"></div><button class="pip-add-btn" onclick="openNewProject('script')"><i class="fas fa-plus"></i> Tambah</button></div>
+      <div class="pip-col"><div class="pip-col-hdr" style="border-color:#0891b2"><span class="pip-col-dot" style="background:#0891b2"></span>🎬 PRODUKSI<span class="pip-col-cnt" id="cnt-production">0</span></div><div class="pip-col-body" id="body-production"></div><button class="pip-add-btn" onclick="openNewProject('production')"><i class="fas fa-plus"></i> Tambah</button></div>
+      <div class="pip-col"><div class="pip-col-hdr" style="border-color:#d97706"><span class="pip-col-dot" style="background:#d97706"></span>✂️ EDITING<span class="pip-col-cnt" id="cnt-editing">0</span></div><div class="pip-col-body" id="body-editing"></div><button class="pip-add-btn" onclick="openNewProject('editing')"><i class="fas fa-plus"></i> Tambah</button></div>
+      <div class="pip-col"><div class="pip-col-hdr" style="border-color:#dc2626"><span class="pip-col-dot" style="background:#dc2626"></span>🖼️ THUMBNAIL<span class="pip-col-cnt" id="cnt-thumbnail">0</span></div><div class="pip-col-body" id="body-thumbnail"></div><button class="pip-add-btn" onclick="openNewProject('thumbnail')"><i class="fas fa-plus"></i> Tambah</button></div>
+      <div class="pip-col"><div class="pip-col-hdr" style="border-color:#16a34a"><span class="pip-col-dot" style="background:#16a34a"></span>🚀 UPLOAD<span class="pip-col-cnt" id="cnt-upload">0</span></div><div class="pip-col-body" id="body-upload"></div><button class="pip-add-btn" onclick="openNewProject('upload')"><i class="fas fa-plus"></i> Tambah</button></div>
+    </div>
+  </div>
+
+  <!-- MODAL: DETAIL IDE -->
+  <div id="m-idea" class="modal" style="display:none"><div class="mbox" style="max-width:700px">
+    <div class="m-hdr">
+      <h3 id="idea-m-title">Detail Ide</h3>
+      <div style="display:flex;gap:8px;align-items:center"><span class="idea-cat-tag" id="idea-cat-tag"></span><button class="m-x" onclick="closeModal('m-idea')"><i class="fas fa-times"></i></button></div>
+    </div>
+    <div class="m-body">
+      <div class="idea-detail-grid">
+        <div id="idea-m-body"></div>
+        <div class="idea-quick-actions">
+          <div class="card-h" style="margin-bottom:10px"><i class="fas fa-bolt"></i> Aksi Cepat</div>
+          <button class="iqa-btn" onclick="ideaToTitle()"><i class="fas fa-heading"></i> Generate Judul</button>
+          <button class="iqa-btn" onclick="ideaToDesc()"><i class="fas fa-align-left"></i> Generate Deskripsi</button>
+          <button class="iqa-btn" onclick="ideaToThumb()"><i class="fas fa-image"></i> Ide Thumbnail</button>
+          <button class="iqa-btn" onclick="ideaToScript()"><i class="fas fa-file-alt"></i> Buat Script</button>
+          <button class="iqa-btn" onclick="ideaToPipeline()"><i class="fas fa-stream"></i> Ke Pipeline</button>
+          <button class="iqa-btn" onclick="scheduleIdea()"><i class="fas fa-calendar-plus"></i> Jadwalkan</button>
+          <div id="idea-generated-preview" style="margin-top:12px"></div>
+        </div>
+      </div>
+    </div>
+    <div class="m-ftr">
+      <button class="btn-out" onclick="closeModal('m-idea')">Tutup</button>
+      <button class="btn-out" onclick="toggleSaveFromModal()"><i class="fas fa-heart" id="modal-save-icon"></i> <span id="modal-save-text">Simpan</span></button>
+      <button class="btn-pri" onclick="ideaToPipeline()"><i class="fas fa-stream"></i> Buat Konten</button>
+    </div>
+  </div></div>
+
+  <!-- MODAL: PIPELINE PROJECT -->
+  <div id="m-pipeline" class="modal" style="display:none"><div class="mbox" style="max-width:660px">
+    <div class="m-hdr"><h3 id="pip-modal-title"><i class="fas fa-stream"></i> Proyek Konten Baru</h3><button class="m-x" onclick="closeModal('m-pipeline')"><i class="fas fa-times"></i></button></div>
+    <div class="m-body">
+      <input type="hidden" id="pip-edit-id">
+      <div class="fr"><label>Judul Konten *</label><input id="pip-title" class="fi" placeholder="Judul video kamu..."></div>
+      <div class="fr2">
+        <div class="fr"><label>Jenis Konten</label><select id="pip-type" class="fi"><option value="minecraft">⛏️ Minecraft</option><option value="animation">🎬 Animasi</option><option value="gaming">🎮 Gaming</option><option value="tutorial">📚 Tutorial</option><option value="shorts">📱 Shorts</option><option value="challenge">🏆 Challenge</option></select></div>
+        <div class="fr"><label>Channel</label><select id="pip-channel" class="fi"><option value="CRC STUDIO">CRC STUDIO</option><option value="MASTERCRC">MASTERCRC</option></select></div>
+      </div>
+      <div class="fr"><label>Deskripsi / Ide Konten</label><textarea id="pip-desc" class="fi" rows="3" placeholder="Ceritakan ide konten ini..."></textarea></div>
+
+      <!-- STEP TRACKER VISUAL -->
+      <div class="pip-step-tracker">
+        <div class="pst-label">Progress Step-by-Step:</div>
+        <div class="pst-steps">
+          <div class="pst-step" id="pst-idea"><div class="pst-circle"><i class="fas fa-lightbulb"></i></div><div class="pst-name">Ide</div></div>
+          <div class="pst-line" id="pst-line-1"></div>
+          <div class="pst-step" id="pst-script"><div class="pst-circle"><i class="fas fa-file-alt"></i></div><div class="pst-name">Script</div></div>
+          <div class="pst-line" id="pst-line-2"></div>
+          <div class="pst-step" id="pst-production"><div class="pst-circle"><i class="fas fa-video"></i></div><div class="pst-name">Produksi</div></div>
+          <div class="pst-line" id="pst-line-3"></div>
+          <div class="pst-step" id="pst-editing"><div class="pst-circle"><i class="fas fa-cut"></i></div><div class="pst-name">Editing</div></div>
+          <div class="pst-line" id="pst-line-4"></div>
+          <div class="pst-step" id="pst-thumbnail"><div class="pst-circle"><i class="fas fa-image"></i></div><div class="pst-name">Thumbnail</div></div>
+          <div class="pst-line" id="pst-line-5"></div>
+          <div class="pst-step" id="pst-upload"><div class="pst-circle"><i class="fas fa-upload"></i></div><div class="pst-name">Upload</div></div>
+        </div>
+        <div class="fr" style="margin-top:14px"><label>Stage Saat Ini</label>
+          <select id="pip-stage" class="fi" onchange="updatePipelineStepUI()">
+            <option value="idea">💡 Ide — Brainstorming &amp; riset</option>
+            <option value="script">📝 Script — Menulis naskah video</option>
+            <option value="production">🎬 Produksi — Rekam/Animasi</option>
+            <option value="editing">✂️ Editing — Edit video &amp; audio</option>
+            <option value="thumbnail">🖼️ Thumbnail — Design thumbnail</option>
+            <option value="upload">🚀 Upload — Siap upload ke YouTube</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- CHECKLIST per stage -->
+      <div id="pip-checklist-area" class="pip-checklist-wrap"></div>
+
+      <div class="fr2" style="margin-top:8px">
+        <div class="fr"><label>Prioritas</label><select id="pip-priority" class="fi"><option value="high">🔴 Tinggi</option><option value="medium" selected>🟡 Sedang</option><option value="low">🟢 Rendah</option></select></div>
+        <div class="fr"><label>Target Upload</label><input id="pip-deadline" type="date" class="fi"></div>
+      </div>
+      <div class="fr"><label>Catatan</label><textarea id="pip-notes" class="fi" rows="2" placeholder="Catatan tambahan..."></textarea></div>
+    </div>
+    <div class="m-ftr">
+      <button class="btn-out" onclick="closeModal('m-pipeline')">Batal</button>
+      <button class="btn-del" id="pip-delete-btn" style="display:none" onclick="deletePipelineProject()"><i class="fas fa-trash"></i> Hapus</button>
+      <button class="btn-pri" onclick="savePipelineProject()"><i class="fas fa-save"></i> Simpan</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══ SCRIPT ═══ -->
+<div id="page-script" class="page">
+  <div class="page-hdr"><h2><i class="fas fa-file-alt"></i> Script Editor</h2><p>Tulis dan kelola script video Minecraft &amp; Gaming-mu</p></div>
+  <div class="script-layout">
+    <div class="script-sb"><button class="btn-pri" style="width:100%;margin-bottom:10px" onclick="newScript()"><i class="fas fa-plus"></i> Script Baru</button><div id="script-list"></div></div>
+    <div class="script-main">
+      <div id="script-empty" class="script-empty"><i class="fas fa-file-alt"></i><p>Pilih script atau buat yang baru</p><button class="btn-pri" style="margin-top:12px" onclick="newScript()"><i class="fas fa-plus"></i> Buat Script</button></div>
+      <div id="script-editor" style="display:none;flex-direction:column;height:100%">
+        <div class="se-tb"><input id="se-title" class="se-title-in" placeholder="Judul script..."><select id="se-type" class="fi" style="width:auto"><option value="minecraft">⛏️ Minecraft</option><option value="animation">🎬 Animasi</option><option value="gaming">🎮 Gaming</option><option value="tutorial">📚 Tutorial</option></select><button class="btn-out" onclick="insertTemplate()"><i class="fas fa-magic"></i> Template</button><button class="btn-pri" onclick="saveScript()"><i class="fas fa-save"></i> Simpan</button><button class="btn-del" onclick="deleteScript()"><i class="fas fa-trash"></i></button></div>
+        <div class="se-meta"><span id="se-wc">0 kata</span><span id="se-dur">~0 menit</span><span id="se-saved">Belum disimpan</span></div>
+        <textarea id="se-area" class="se-area" placeholder="Tulis script di sini..." oninput="updateScriptMeta()"></textarea>
+        <div class="se-secs"><span style="font-size:11px;color:var(--muted)">Bagian:</span><button class="ss-btn" onclick="insertSection('[HOOK]')">HOOK</button><button class="ss-btn" onclick="insertSection('[INTRO]')">INTRO</button><button class="ss-btn" onclick="insertSection('[MAIN CONTENT]')">MAIN</button><button class="ss-btn" onclick="insertSection('[TRANSISI]')">TRANSISI</button><button class="ss-btn" onclick="insertSection('[OUTRO]')">OUTRO</button><button class="ss-btn" onclick="insertSection('[CTA]')">CTA</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ANALYTICS ═══ -->
+<div id="page-analytics" class="page">
+  <div class="page-hdr"><h2><i class="fas fa-chart-line"></i> Analitik &amp; SEO</h2><p>Analisa performa channel dan strategi konten CRC</p></div>
+  <div class="ana-ch-row"><label>Channel:</label><select id="ana-sel" class="fi" style="width:auto" onchange="updateAna()"></select><button class="btn-out" style="margin-left:auto" onclick="updateAna()"><i class="fas fa-refresh"></i> Refresh</button></div>
+  <div class="ana-stats">
+    <div class="an-card"><div class="an-n" id="an-subs">—</div><div class="an-l">Subscriber</div></div>
+    <div class="an-card"><div class="an-n" id="an-views">—</div><div class="an-l">Total Views</div></div>
+    <div class="an-card"><div class="an-n" id="an-vids">—</div><div class="an-l">Video</div></div>
+    <div class="an-card"><div class="an-n" id="an-avg">—</div><div class="an-l">Avg Views/Video</div></div>
+    <div class="an-card"><div class="an-n" id="an-vps">—</div><div class="an-l">Views/Sub</div></div>
+    <div class="an-card"><div class="an-n" id="an-next">—</div><div class="an-l">Sub ke Milestone</div></div>
+  </div>
+  <div class="ana-grid">
+    <div class="card"><div class="card-h"><i class="fas fa-chart-line"></i> Pertumbuhan Subscriber</div><canvas id="ch-growth" height="180"></canvas></div>
+    <div class="card"><div class="card-h"><i class="fas fa-chart-pie"></i> Distribusi Konten</div><canvas id="ch-pie" height="180"></canvas></div>
+    <div class="card" style="grid-column:span 2"><div class="card-h"><i class="fas fa-trophy"></i> YouTube Play Button Progress</div><div id="play-btn-prog"></div></div>
+  </div>
+  <div class="card" style="margin-top:16px"><div class="card-h"><i class="fas fa-search"></i> SEO Checker</div><div class="fr"><label>Masukkan judul video:</label><input id="seo-in" class="fi" placeholder="Minecraft Survival 100 Hari Indonesia HARDCORE!" oninput="checkSEO()"></div><div id="seo-out" style="margin-top:12px"></div></div>
+  <div class="card" style="margin-top:16px"><div class="card-h"><i class="fas fa-brain"></i> Tips Algoritma YouTube</div><div class="algo-grid" id="algo-grid"></div></div>
+  <div class="card" style="margin-top:16px"><div class="card-h"><i class="fas fa-edit"></i> Update Statistik Channel</div><div id="update-form"></div></div>
+</div>
+
+<!-- ═══ COMPETITOR ═══ -->
+<div id="page-competitor" class="page">
+  <div class="page-hdr"><h2><i class="fas fa-crosshairs"></i> Analisa Kompetitor</h2><p>Pelajari channel Minecraft &amp; Gaming lain untuk inspirasi</p></div>
+  <div class="toolbar"><button class="btn-pri" onclick="openAddComp()"><i class="fas fa-plus"></i> Tambah Kompetitor</button><button class="btn-out" onclick="loadDefaultComps()"><i class="fas fa-list"></i> Load Channel Populer</button></div>
+  <div id="comp-grid" class="comp-grid"></div>
+  <div class="card" style="margin-top:20px"><div class="card-h"><i class="fas fa-graduation-cap"></i> Pelajaran dari Channel Minecraft Sukses</div><div id="comp-lessons"></div></div>
+  <div id="m-addcomp" class="modal" style="display:none"><div class="mbox">
+    <div class="m-hdr"><h3><i class="fas fa-plus"></i> Tambah Kompetitor</h3><button class="m-x" onclick="closeModal('m-addcomp')"><i class="fas fa-times"></i></button></div>
+    <div class="m-body">
+      <div class="fr"><label>Nama Channel *</label><input id="comp-name" class="fi"></div>
+      <div class="fr"><label>URL Channel</label><input id="comp-url" class="fi" placeholder="https://youtube.com/@..."></div>
+      <div class="fr3"><div class="fr"><label>Subscriber</label><input id="comp-subs" class="fi" type="number"></div><div class="fr"><label>Views</label><input id="comp-views" class="fi" type="number"></div><div class="fr"><label>Video</label><input id="comp-vids" class="fi" type="number"></div></div>
+      <div class="fr"><label>Strategi Unggulan</label><textarea id="comp-strat" class="fi" rows="2" placeholder="Apa yang membuat channel ini sukses?"></textarea></div>
+    </div>
+    <div class="m-ftr"><button class="btn-out" onclick="closeModal('m-addcomp')">Batal</button><button class="btn-pri" onclick="saveComp()"><i class="fas fa-save"></i> Simpan</button></div>
+  </div></div>
+</div>
+
+<!-- ═══ ANIMATION ═══ -->
+<div id="page-animation" class="page">
+  <div class="page-hdr"><h2><i class="fas fa-film"></i> Animasi Minecraft Tracker</h2><p>Kelola proyek animasi dari ide sampai upload</p></div>
+  <div class="toolbar"><button class="btn-pri" onclick="openAddAnim()"><i class="fas fa-plus"></i> Proyek Baru</button><div class="filters"><button class="filt active" onclick="filtAnim('all',this)">Semua</button><button class="filt" onclick="filtAnim('planning',this)">Planning</button><button class="filt" onclick="filtAnim('inprogress',this)">In Progress</button><button class="filt" onclick="filtAnim('done',this)">Selesai</button></div></div>
+  <div id="anim-grid" class="anim-grid"></div>
+  <div class="card" style="margin-top:20px"><div class="card-h"><i class="fas fa-tools"></i> Tools Animasi Minecraft (Semua GRATIS!)</div><div id="anim-tools" class="tools-mini-grid"></div></div>
+  <div id="m-addanim" class="modal" style="display:none"><div class="mbox">
+    <div class="m-hdr"><h3><i class="fas fa-film"></i> Proyek Animasi Baru</h3><button class="m-x" onclick="closeModal('m-addanim')"><i class="fas fa-times"></i></button></div>
+    <div class="m-body">
+      <div class="fr"><label>Judul Animasi *</label><input id="anim-title" class="fi" placeholder="Judul animasi..."></div>
+      <div class="fr"><label>Deskripsi / Plot</label><textarea id="anim-desc" class="fi" rows="3" placeholder="Ceritakan plot animasi..."></textarea></div>
+      <div class="fr2"><div class="fr"><label>Status</label><select id="anim-st" class="fi"><option value="planning">📋 Planning</option><option value="scripting">📝 Scripting</option><option value="animating">🎬 Animating</option><option value="rendering">🖥️ Rendering</option><option value="editing">✂️ Editing</option><option value="done">✅ Selesai</option></select></div><div class="fr"><label>Software</label><input id="anim-sw" class="fi" placeholder="Mine-imator, Blender..."></div></div>
+      <div class="fr2"><div class="fr"><label>Target Durasi (menit)</label><input id="anim-dur" class="fi" type="number" placeholder="5"></div><div class="fr"><label>Deadline</label><input id="anim-dl" class="fi" type="date"></div></div>
+      <div class="fr"><label>Progress: <span id="anim-pv">0</span>%</label><input type="range" id="anim-prog" min="0" max="100" value="0" style="width:100%;accent-color:var(--red)" oninput="document.getElementById('anim-pv').textContent=this.value"></div>
+      <div class="fr"><label>Channel Tujuan</label><select id="anim-ch" class="fi"></select></div>
+    </div>
+    <div class="m-ftr"><button class="btn-out" onclick="closeModal('m-addanim')">Batal</button><button class="btn-pri" onclick="saveAnim()"><i class="fas fa-save"></i> Simpan</button></div>
+  </div></div>
+</div>
+
+<!-- ═══ THUMBNAIL ═══ -->
+<div id="page-thumbnail" class="page">
+  <div class="page-hdr"><h2><i class="fas fa-image"></i> Thumbnail Planner</h2><p>Rencanakan dan evaluasi thumbnail Minecraft &amp; Gaming-mu</p></div>
+  <div class="thumb-layout">
+    <div>
+      <div class="card"><div class="card-h"><i class="fas fa-check-circle"></i> Checklist Thumbnail Sempurna</div><div id="thumb-checks"></div></div>
+      <div class="card" style="margin-top:14px"><div class="card-h"><i class="fas fa-magic"></i> Generator Ide Thumbnail</div><div class="fr"><label>Topik Video</label><input id="thumb-topic" class="fi" placeholder="Minecraft survival 100 hari..."></div><button class="btn-pri" onclick="genThumb()"><i class="fas fa-wand-magic-sparkles"></i> Generate Ide</button><div id="thumb-ideas-out" style="margin-top:14px"></div></div>
+    </div>
+    <div>
+      <div class="card"><div class="card-h"><i class="fas fa-ruler"></i> Spesifikasi</div><div class="spec-list"><div class="spec-row"><span>Ukuran</span><b>1280 × 720 px</b></div><div class="spec-row"><span>Rasio</span><b>16:9</b></div><div class="spec-row"><span>Format</span><b>JPG / PNG</b></div><div class="spec-row"><span>Max Size</span><b>2 MB</b></div><div class="spec-row"><span>Target CTR</span><b>4% – 10%</b></div></div></div>
+      <div class="card" style="margin-top:12px"><div class="card-h"><i class="fas fa-palette"></i> Palet Warna Minecraft</div><div id="mc-palette" class="palette-wrap"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TOOLS ═══ -->
+<div id="page-tools" class="page">
+  <div class="page-hdr"><h2><i class="fas fa-toolbox"></i> Tools &amp; Resources</h2><p>Semua tools berguna untuk channel CRC — semua GRATIS!</p></div>
+  <div id="tools-content"></div>
+</div>
+
+    </div><!-- end #pages -->
+  </main>
+</div><!-- end #app -->
+
+<!-- GLOBAL MODALS -->
+<div id="m-settings" class="modal" style="display:none"><div class="mbox" style="max-width:420px">
+  <div class="m-hdr"><h3><i class="fas fa-cog"></i> Pengaturan</h3><button class="m-x" onclick="closeModal('m-settings')"><i class="fas fa-times"></i></button></div>
+  <div class="m-body">
+    <div class="fr"><label>Nama Creator</label><input id="set-name" class="fi"></div>
+    <div class="fr"><label>Upload Streak (hari)</label><input id="set-streak" class="fi" type="number"></div>
+    <div style="margin-top:14px;padding:13px;background:rgba(230,0,0,.06);border-radius:10px;border:1px solid rgba(230,0,0,.2)"><div style="font-weight:700;color:#ff6666;margin-bottom:8px">⚠️ Danger Zone</div><button class="btn-del" onclick="resetData()"><i class="fas fa-trash"></i> Reset Semua Data</button></div>
+  </div>
+  <div class="m-ftr"><button class="btn-out" onclick="closeModal('m-settings')">Batal</button><button class="btn-pri" onclick="saveSettings()"><i class="fas fa-save"></i> Simpan</button></div>
+</div></div>
+
+<div id="m-api" class="modal" style="display:none"><div class="mbox" style="max-width:480px">
+  <div class="m-hdr"><h3><i class="fas fa-key"></i> YouTube Data API Key</h3><button class="m-x" onclick="closeModal('m-api')"><i class="fas fa-times"></i></button></div>
+  <div class="m-body">
+    <div class="api-info"><p>Dengan YouTube API Key, app bisa <strong>fetch data real-time</strong> dari channel CRC STUDIO dan MASTERCRC!</p><div class="api-steps" style="margin-top:10px"><div class="api-step"><span class="step-num">1</span><span>Buka <a href="https://console.cloud.google.com" target="_blank" style="color:var(--red2)">console.cloud.google.com</a></span></div><div class="api-step"><span class="step-num">2</span><span>Buat project → Enable <strong>"YouTube Data API v3"</strong></span></div><div class="api-step"><span class="step-num">3</span><span>Credentials → Create API Key → Copy</span></div></div><div class="api-note" style="margin-top:10px">✅ GRATIS — 10.000 unit/hari</div></div>
+    <div class="fr" style="margin-top:14px"><label>YouTube Data API v3 Key</label><div style="display:flex;gap:8px"><input id="api-key-in" class="fi" type="password" placeholder="AIzaSy..."><button class="btn-out" style="white-space:nowrap" onclick="toggleKeyVis('api-key-in',this)"><i class="fas fa-eye"></i></button></div></div>
+  </div>
+  <div class="m-ftr"><button class="btn-out" onclick="closeModal('m-api')">Batal</button><button class="btn-pri" onclick="saveApiKey()"><i class="fas fa-save"></i> Simpan &amp; Test</button></div>
+</div></div>
+
+<div id="m-todo" class="modal" style="display:none"><div class="mbox" style="max-width:380px">
+  <div class="m-hdr"><h3><i class="fas fa-plus"></i> Tambah Todo</h3><button class="m-x" onclick="closeModal('m-todo')"><i class="fas fa-times"></i></button></div>
+  <div class="m-body">
+    <div class="fr"><label>Tugas *</label><input id="todo-in" class="fi" placeholder="Tugas hari ini..."></div>
+    <div class="fr"><label>Kategori</label><select id="todo-cat" class="fi"><option value="upload">📤 Upload</option><option value="edit">✂️ Edit</option><option value="record">🎙️ Rekam</option><option value="design">🎨 Design</option><option value="research">🔍 Riset</option><option value="other">📌 Lainnya</option></select></div>
+  </div>
+  <div class="m-ftr"><button class="btn-out" onclick="closeModal('m-todo')">Batal</button><button class="btn-pri" onclick="saveTodo()"><i class="fas fa-save"></i> Tambah</button></div>
+</div></div>
+
+<div id="toasts"></div>
+<script src="app.js"></script>
+</body>
+</html>
